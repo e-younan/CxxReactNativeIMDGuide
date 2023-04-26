@@ -1,5 +1,8 @@
-const ImageMetadata = require('./NativeImageMetadata').default;
+import { IMD } from './NativeImageMetadata';
+import type { ImageMetadata } from './NativeImageMetadata';
 
-export function multiply(a: number, b: number): number {
-  return ImageMetadata.multiply(a, b);
-}
+export const getImageMetadata = (path: string): ImageMetadata => {
+  return IMD.getImageMetadata(path);
+};
+
+export type { ImageMetadata };

@@ -45,6 +45,8 @@ target 'ImageMetadataExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'react-native-image-metadata', :path => '../..' # <-- Add this line
+
   target 'ImageMetadataExampleTests' do
     inherit! :complete
     # Pods for testing

@@ -1,27 +1,73 @@
-import * as React from 'react';
+import React from 'react';
+import { StyleSheet, View, Text, Pressable, Platform } from 'react-native';
+import { launchImageLibrary } from 'react-native-image-picker';
+import { getImageMetadata, ImageMetadata } from 'react-native-image-metadata';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-image-metadata';
+const App = () => {
+  const [metadata, setMetadata] = React.useState<ImageMetadata | null>(null);
 
-const result = multiply(3, 7);
+  const selectAndGetMetadata = async () => {
+    const result = await launchImageLibrary({
+      mediaType: 'photo',
+      selectionLimit: 1,
+    });
 
-export default function App() {
+    if (result.didCancel) return;
+    if (result.errorCode) return;
+    if (!result.assets || result.assets.length === 0) return;
+
+    const asset = result.assets[0];
+    if (!asset || !asset.uri) return;
+
+    console.log('Selected image:');
+    console.log(asset);
+
+    const normalizedUri =
+      Platform.OS === 'ios' ? asset.uri.replace('file://', '') : asset.uri;
+    console.log(normalizedUri);
+    try {
+      const meta = getImageMetadata(normalizedUri);
+      setMetadata(meta);
+    } catch (error) {
+      setMetadata(null);
+      if (error instanceof Error) {
+        console.error(error);
+        console.error(error.message);
+      }
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Pressable onPress={selectAndGetMetadata} style={styles.chooseButton}>
+        <Text>Choose an image</Text>
+      </Pressable>
+
+      {metadata && (
+        <Text style={styles.metadata}>
+          Metadata: {JSON.stringify(metadata)}
+        </Text>
+      )}
     </View>
   );
-}
+};
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
+  chooseButton: {
+    padding: 12,
+    backgroundColor: 'yellow',
+  },
+  metadata: {
+    marginTop: 12,
+    paddingHorizontal: 12,
+    fontSize: 18,
   },
 });

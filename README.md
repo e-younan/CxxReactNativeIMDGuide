@@ -1,6 +1,6 @@
 # react-native-image-metadata
 
-A library for extracting image metadata.
+A library for extracting PNG metadata in React Native, using C++ Turbo Native Modules. This repository is the outcome of my Medium Post, "Building a React Native C++ Turbo Native Module"
 
 ## Installation
 
@@ -12,11 +12,11 @@ npm install react-native-image-metadata
 
 
 ```js
-import { multiply } from 'react-native-image-metadata';
+import { getImageMetadata } from 'react-native-image-metadata';
 
 // ...
 
-const result = multiply(3, 7);
+const result = getImageMetadata("/path/to/somePNG.png");
 ```
 
 ## Contributing
