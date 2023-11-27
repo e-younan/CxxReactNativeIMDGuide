@@ -1,7 +1,7 @@
 {
   "name": "react-native-image-metadata",
   "version": "0.1.0",
-  "description": "test",
+  "description": "A React Native library that uses C++ to read PNG metadata.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
